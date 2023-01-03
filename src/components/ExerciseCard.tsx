@@ -1,0 +1,39 @@
+import { TouchableOpacity, TouchableOpacityProps } from "react-native";
+import { Heading, HStack, Image, Text, VStack, Icon } from "native-base";
+import { Entypo } from "@expo/vector-icons"
+
+
+type Props = TouchableOpacityProps &{
+
+}
+
+export function ExerciseCard({...rest}: Props){
+  return (
+    <TouchableOpacity {...rest}>
+      <HStack bg="gray.500" alignItems="center" p={2} pr={4} rounded="md" mb={3}>
+        <Image
+          source={{uri: 'https://alcateiademonstros.com.br/wp-content/uploads/2022/01/remada-unilateral-com-halter.jpg'}}
+          alt="Ex Unilateral"
+          h={16}
+          w={16}
+          rounded="md"
+          mr={4}
+        />
+        <VStack flex={1} >
+          <Heading color="white" fontSize="lg">
+            Remada Unilateral
+          </Heading>
+          <Text fontSize="sm" color="gray.200" mt={1} numberOfLines={2}>
+            4 x séries 12 x repetições
+          </Text>
+        </VStack>
+        <Icon
+          as={Entypo} 
+          name="chevron-thin-right"
+          color="gray.300"
+        />
+      </HStack>
+
+    </TouchableOpacity>
+  );
+}

@@ -13,14 +13,30 @@ const PHOTO_SIZE = 33;
 
 export function Profile(){
   const [photoIsLoading, setPhotoIsLoading] = useState(false);
+  const [userPhoto, setUserPhoto] = useState('https://github.com/pcaldi.png');
 
   async function handleUserPhotoSelect(){
-    await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      quality: 1,
-      aspect: [4, 4],
-      allowsEditing: true
-    });
+    setPhotoIsLoading(true);
+    try {
+      const photoSelected = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        quality: 1,
+        aspect: [4, 4],
+        allowsEditing: true
+      });
+      
+      if (photoSelected.canceled){
+        return;
+      }
+      if (photoSelected.assets[0].uri){
+        setUserPhoto(photoSelected.assets[0].uri)
+      }
+      
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setPhotoIsLoading(false);
+    }  
   }
 
   return(
@@ -39,7 +55,7 @@ export function Profile(){
           />
          :
           <UserPhoto
-            source={{uri: 'https://github.com/pcaldi.png'}}
+            source={{uri: userPhoto}}
             alt="Foto Usuário"
             size={PHOTO_SIZE}
           />

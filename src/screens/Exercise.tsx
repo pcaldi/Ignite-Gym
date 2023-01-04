@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/native';
 
-import { Heading, HStack, Icon, Text, VStack } from 'native-base';
+import { Heading, HStack, Icon, Text, VStack, Image } from 'native-base';
 import { TouchableOpacity } from 'react-native';
 import { Feather } from '@expo/vector-icons'
 
@@ -42,6 +42,19 @@ export function Exercise(){
       </HStack>
 
      </VStack>
+
+    <VStack p={8}>
+     <Image
+      w="full"
+      h={80}
+      source={{uri: 'https://alcateiademonstros.com.br/wp-content/uploads/2022/01/remada-unilateral-com-halter.jpg'}}
+      alt="Nome do exercício"
+      mb={6}
+      resizeMode="cover"
+      rounded="lg"
+     />
+    </VStack>
+
     </VStack>
   );
 }

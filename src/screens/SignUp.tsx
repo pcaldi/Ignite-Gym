@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { VStack, Image, Text, Center, Heading, ScrollView } from 'native-base';
 import { useForm, Controller} from 'react-hook-form';
@@ -19,7 +18,7 @@ type FormDataProps = {
 
 export function SignUp() {
 
-  const { control, handleSubmit } = useForm<FormDataProps>();
+  const { control, handleSubmit, formState: { errors } } = useForm<FormDataProps>();
   
   const navigation = useNavigation()
   function handleGoBack(){
@@ -55,6 +54,9 @@ export function SignUp() {
       <Controller
         control={control}   
         name='name'
+        rules={{
+          required: 'Informe o nome.'
+        }}
         render={({field : {onChange , value}}) => (
         <Input 
           placeholder="Nome" 
@@ -63,6 +65,10 @@ export function SignUp() {
         />
        )}
       />
+
+      <Text color="white">
+          {errors.name?.message}
+      </Text>
 
       <Controller
         control={control}   

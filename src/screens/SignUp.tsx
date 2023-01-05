@@ -4,11 +4,15 @@ import { useForm, Controller} from 'react-hook-form';
 import { yupResolver} from "@hookform/resolvers/yup";
 import * as yup from 'yup';
 
+import axios from 'axios';
+import { api } from '@services/api'
+
 import LogoSvg from '@assets/logo.svg';
 import BackgroundImg from '@assets/background.png';
 
 import { Input } from '@components/Input';
 import { Button } from '@components/Button';
+import { Alert } from 'react-native';
 
 
 type FormDataProps = {
@@ -35,9 +39,20 @@ export function SignUp() {
   function handleGoBack(){
     navigation.goBack();
   }
-
+  
   async function handleSignUp({name, email, password }: FormDataProps) {
-   const response = await fetch('http://192.168.0.108:3333/users', {
+    try {
+      const response = await api.post('/users', { name, email, password });
+      console.log(response.data);
+    } catch (error) {
+      if (axios.isAxiosError(error)){
+        Alert.alert(error.response?.data.message)
+      }
+    }
+
+  }
+
+   /*const response = await fetch('http://192.168.0.108:3333/users', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -47,8 +62,7 @@ export function SignUp() {
     });
     const data = await response.json();
     console.log(data);
-    
-  }
+    */
 
   return(
   <ScrollView contentContainerStyle={{flexGrow: 1}} showsVerticalScrollIndicator={false}>

@@ -1,9 +1,10 @@
+import { createContext, ReactNode, useState } from "react";
 import { UserDTO } from "@dtos/UserDTO";
 
 import { api } from "@services/api";
 
-import { createContext, ReactNode, useState } from "react";
-import { Use } from "react-native-svg";
+import { storageUserSave } from "@storage/StorageUser"
+
 
 export type AuthContextDataProps ={
   user: UserDTO;
@@ -23,6 +24,7 @@ export function AuthContextProvider({ children }: AuthContextProviderProps){
       const { data } = await api.post('/sessions', { email, password})
       if ( data.user){
        setUser(data.user)
+       storageUserSave(data.user)
       }
     } catch (error) {
       throw error;

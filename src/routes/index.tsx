@@ -10,8 +10,6 @@ export function Routes(){
 
   const { user } = useAuth();
   
-  console.log('USUARIO LOGADO =>>', user)
-
   const { colors } = useTheme();
 
   const theme = DefaultTheme;
@@ -19,7 +17,7 @@ export function Routes(){
   return (
     <Box flex={1} bg="gray.700">
     <NavigationContainer theme={theme}>
-      <AuthRoutes />
+      {user.id ? <AppRoutes/> : <AuthRoutes/>}
     </NavigationContainer>
     </Box>
   )

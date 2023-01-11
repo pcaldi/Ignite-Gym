@@ -1,4 +1,4 @@
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 
 import { Heading, HStack, Icon, Text, VStack, Image, Box, ScrollView } from 'native-base';
 import { TouchableOpacity } from 'react-native';
@@ -11,7 +11,17 @@ import { Button } from '@components/Button';
 
 import { AppNavigatorRoutesProps } from '@routes/app.routes';
 
+
+type RoutesParamsProps = {
+  exerciseId: string;
+}
+
 export function Exercise(){
+
+  const route = useRoute();
+
+  const { exerciseId } = route.params as RoutesParamsProps;
+
 
 
   const navigation = useNavigation<AppNavigatorRoutesProps>();

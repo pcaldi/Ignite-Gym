@@ -1,21 +1,47 @@
-import { useState } from 'react';
-import {Heading, VStack, SectionList, Text } from 'native-base';
-
+import { useFocusEffect } from '@react-navigation/native';
+import { useCallback, useState } from 'react';
+import {Heading, VStack, SectionList, Text, useToast } from 'native-base';
 
 import { ScreenHeader } from '@components/ScreenHeader';
 import { HistoryCard } from '@components/HistoryCard';
 
+import { api } from '@services/api';
+import { HistoryByDayDTO } from '@dtos/HistoryByDayDTO';
+import { AppError } from '@utils/AppError';
+import { HistoryDTO } from '@dtos/HistoryDTO';
+
+type Props = {
+  data: HistoryDTO;
+}
+
 export function History(){
-  const [exercises, setExercises] = useState([
-    {
-      title: "03.01.23",
-      data: ["Puxada Frontal", "Remada Unilateral"]
-    },
-    {
-      title: "01.01.23",
-      data: ["Puxada Frontal"]
-    },
-  ]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [exercises, setExercises] = useState<HistoryByDayDTO[]>([]);
+
+  const toast = useToast();
+
+  async function fetchHistory(){
+    try {
+      setIsLoading(true);
+      const response = await api.get('/history');
+      setExercises(response.data);
+
+    } catch (error) {
+      const isAppError = error instanceof AppError
+      const title = isAppError ? error.message : 'Não foi possível carregar o histórico.'
+      toast.show({
+        title,
+        placement: 'top',
+        bgColor: "red.500"
+      })
+    }finally{
+      setIsLoading(false);
+    }
+  }
+
+  useFocusEffect(useCallback(() => {
+    fetchHistory();
+  }, []));
 
   return(
     <VStack flex={1}>
@@ -24,10 +50,8 @@ export function History(){
 
     <SectionList
       sections={exercises}
-      keyExtractor={item => item}
-      renderItem={({item}) => (
-        <HistoryCard/>
-      )}
+      keyExtractor={item => item.id}
+      renderItem={({item}) => <HistoryCard data={item}/>}
       renderSectionHeader={({ section }) => (
         <Heading color="gray.200" fontSize="md" mt={10} mb={3} fontFamily="heading">
           {section.title}

@@ -1,9 +1,11 @@
 import { useState } from 'react';
 import { TouchableOpacity } from 'react-native';
+import { Controller, useForm } from 'react-hook-form';
 import { Center, ScrollView, VStack, Skeleton, Text, Heading, useToast } from 'native-base';
+import { yupResolver } from '@hookform/resolvers/yup';
 import * as ImagePicker from 'expo-image-picker';
 import * as FileSystem from 'expo-file-system';
-import { Controller, useForm } from 'react-hook-form';
+import * as yup from 'yup';
 
 import { useAuth } from '@hooks/useAuth';
 
@@ -23,17 +25,39 @@ type FormDataProps = {
   confirm_password: string;
 }
 
+const profileSchema = yup.object({
+  name: yup
+    .string()
+    .required('Informe o nome.'),
+  password: yup
+    .string()
+    .min(6, 'A senha deve ter no mínimo 6 dígitos.')
+    .nullable()
+    .transform((value) => !!value ? value : null),
+  password_confirm: yup
+    .string()
+    .required()
+    .nullable()
+    .transform((value) => !!value ? value : null)
+    .oneOf([yup.ref('password'), null], 'Confirmação de senha inválida.')
+    .when('password', {
+      is: (Field : any) => Field,
+      then: yup.string().nullable().required('Informe a confirmação de senha.')
+    })
+});
+
 export function Profile(){
   const [photoIsLoading, setPhotoIsLoading] = useState(false);
   const [userPhoto, setUserPhoto] = useState('https://github.com/pcaldi.png');
   
   const toast = useToast();
   const { user } = useAuth();
-  const { control, handleSubmit } = useForm<FormDataProps>({
+  const { control, handleSubmit, formState: { errors } } = useForm<FormDataProps>({
     defaultValues: {
       name: user.name,
       email: user.email
-    }
+    },
+    resolver: yupResolver(profileSchema)
   });
 
   async function handleUserPhotoSelect(){
@@ -70,8 +94,8 @@ export function Profile(){
       setPhotoIsLoading(false);
     }  
   }
-  async function handleProfileUpdate(date: FormDataProps){
-    console.log(date);
+  async function handleProfileUpdate(data: FormDataProps){
+    console.log(data);
   }
 
 
@@ -111,6 +135,7 @@ export function Profile(){
               placeholder="Nome"
               onChangeText={onChange}
               value={value}
+              errorMessage={errors.name?.message}
             />
           )}
         />
@@ -156,7 +181,7 @@ export function Profile(){
                 placeholder="Nova Senha"
                 secureTextEntry
                 onChangeText={onChange}
-                
+                errorMessage={errors.password?.message}  
               />
             )}
           />
@@ -170,7 +195,7 @@ export function Profile(){
                 placeholder="Confirmar Senha"
                 secureTextEntry
                 onChangeText={onChange}
-                
+                errorMessage={errors.confirm_password?.message}  
               />
             )}
           />

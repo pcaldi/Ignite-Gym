@@ -5,11 +5,13 @@ import { api } from "@services/api";
 
 import { storageAuthTokenSave, storageAuthTokenGet, storageAuthTokenRemove} from "@storage/storageAuthToken"
 import { storageUserSave, storageUserGet, storageUserRemove } from "@storage/storageUser"
+import { Use } from "react-native-svg";
 
 
 export type AuthContextDataProps ={
   user: UserDTO;
   signIn: (email: string, password: string) => Promise<void>;
+  updateUserProfile: (UserUpdate: UserDTO) => Promise<void>;
   signOut: () => Promise<void>;
   isLoadingStorageData: boolean ;
 }
@@ -80,6 +82,15 @@ export function AuthContextProvider({ children }: AuthContextProviderProps){
     }
   }
 
+  async function updateUserProfile(UserUpdate: UserDTO){
+    try {
+      setUser(UserUpdate);
+      await storageUserSave(UserUpdate);
+    } catch (error) {
+      throw error;
+    }
+  }
+
   async function loadUserData(){
     try {
       setIsLoadingStorageData(true);
@@ -104,9 +115,10 @@ export function AuthContextProvider({ children }: AuthContextProviderProps){
   return (
     <AuthContext.Provider value={{ 
         user, 
-        isLoadingStorageData, 
         signIn,
+        updateUserProfile,
         signOut,
+        isLoadingStorageData, 
       }}>
       {children}
     </AuthContext.Provider>

@@ -91,8 +91,15 @@ export function Profile(){
             bg: 'red.500'
           });
         }
+        const fileExtension = photoSelected.assets[0].uri.split('.').pop();
+        
+        const photoFile = {
+          name: `${user.name}.${fileExtension}`.toLowerCase(),
+          uri: photoSelected.assets[0].uri,
+          type: `${photoSelected.assets[0].type}/${fileExtension}`
+        }
+        console.log(photoFile);
 
-        setUserPhoto(photoSelected.assets[0].uri)
       }
       
     } catch (error) {

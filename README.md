@@ -2,13 +2,27 @@
 
 <h1 align="center">:file_cabinet:Ignite Gym</h1>
 
-<div align="center">
-  <img alt="Project Image" src="https://user-images.githubusercontent.com/114869399/211170866-894bd593-c915-4e1a-9b16-629242f9bc9c.png"/>
+
+
+<div  align="center">
+  
+  <img src="https://user-images.githubusercontent.com/114869399/212420655-05269788-158f-401c-a42d-f91a19312f9d.png" width="25%"/>
+  
+  <img src="https://user-images.githubusercontent.com/114869399/212421479-7e4342f8-6964-49f3-bb06-60d6938b4c68.png" width="25%"/>
+  
+  <img src="https://user-images.githubusercontent.com/114869399/212420598-eb7a76aa-39fb-4599-bf8c-c0d895256897.png" width="25%"/>
+  
+  <img src="https://user-images.githubusercontent.com/114869399/212423271-55b536ae-ba83-4e1e-b087-dc8b76df377b.png" width="25%"/>
+  
+  <img src="https://user-images.githubusercontent.com/114869399/212420473-d449eaed-bdf1-42b1-9910-dc208eceeb2d.png" width="25%"/>
+  
+  <img src="https://user-images.githubusercontent.com/114869399/212422110-afcc81d5-cd02-4acb-9d1c-a32d2357f53e.png" width="25%"/>
+   
 </div>
 
 ## :memo: Projeto
 
-Projeto desenvolvido em React-Native, Base-Native e TypeScript de um aplicativo de academia.
+O projeto consiste em um aplicativo de gerenciamento de academia, onde o usuário poderá logar no aplicativo ou se cadastrar,  ver todos exercícios de seu treino,  detalhes sobre cada exercício, marcar um exercício como concluído, visualizar seu histórico de exercícios concluídos e editar os dados de sua conta, alteranto foto, nome e a sua senha.
 
 
 ## :wrench: Tecnologias utilizadas
@@ -24,7 +38,29 @@ Projeto desenvolvido em React-Native, Base-Native e TypeScript de um aplicativo 
 
 ## :rocket: Rodando o projeto
 
-...
+#### Primeiro faça um clone na API.
+
+```bash
+# Clone o repositório do backend
+$ git clone https://github.com/rodrigorgtic/ignitegym-api.git
+
+# Acesse a pasta do projeto no terminal/cmd
+$ cd ignitegym-api
+
+# Rode o projeto
+$ npm run dev
+```
+#### Depois de executar a APi.
+
+```bash
+# Clone este repositório
+$ git clone git@github.com:pcaldi/Ignite-Gym.git
+# instalar dependências
+$ npx expo install
+# inicializar expo
+$ npx expo start
+```
+
 
 ## 📲 Contato
 
